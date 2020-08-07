@@ -1,0 +1,13 @@
+name: Make Generate
+on: pull_requests
+
+jobs: 
+  run:
+    name: Make Generate Template
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Make
+      run: make
