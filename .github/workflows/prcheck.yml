@@ -1,4 +1,4 @@
-name: Make Generate
+name: Make Generate PR
 on: pull_requests
 
 jobs: 
