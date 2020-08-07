@@ -30,7 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	monitoringv1alpha1 "github.com/RiRa12621/openshift-route-monitor-operator/api/v1alpha1"
-	monitoringv1 "github.com/prometheus-operator/prometheus-operator/tree/master/pkg/apis/monitoring/v1"
+	monitoringv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 )
 
 // RouteMonitorReconciler reconciles a RouteMonitor object
@@ -91,9 +91,9 @@ func (r *RouteMonitorReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error
 			err = r.Create(ctx, serviceMonitorDep)
 			if err != nil {
 				log.Error(err, "Failed to create new ServiceMonitor", "Deployment.Namespace", serviceMonitorDep.Namespace, "Deployment.Name", serviceMonitorDep.Name)
-				return ctrl.ResultP{}, err
+				return ctrl.Result{}, err
 			}
-			return ctr.Result{}, err
+			return ctrl.Result{}, err
 		}
 	}
 	return ctrl.Result{}, nil
@@ -157,19 +157,19 @@ func (r *RouteMonitorReconciler) deploymentForServiceMonitor(m *monitoringv1alph
 		// Probe every 30s
 		Interval: "30s",
 		// Timeout has to be smaller than probe interval
-		Timeout:    "15s",
-		Path:       "/probe",
-		Scheme:     "http",
-		TargetPort: 9115,
-		Params:     []monitoringv1Params{params},
-		MetricsRelabeling: monitoringv1.MetricRelabelConfigs{
+		ScrapeTimeout: "15s",
+		Path:          "/probe",
+		Scheme:        "http",
+		TargetPort:    "9115",
+		Params:        []monitoringv1Params{params},
+		MetricRelabelings: monitoringv1.MetricRelabelConfigs{
 			Replacement:  m.url,
 			SourceLabels: "[]",
 			TargetLabel:  "RouteMonitorUrl",
 		},
 	}
 
-	dep := &monitoringv1.ServiceMonitori{
+	dep := &monitoringv1.ServiceMonitor{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: m.Name,
 			// ServiceMonitors need to be in `openshift-monitoring` to be picked up by cluster-monitoring-operator
