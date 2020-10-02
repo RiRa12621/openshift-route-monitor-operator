@@ -3,6 +3,11 @@
 ![CodeQL](https://github.com/RiRa12621/openshift-route-monitor-operator/workflows/CodeQL/badge.svg?branch=master)
 ![Make Generate](https://github.com/RiRa12621/openshift-route-monitor-operator/workflows/Make%20Generate/badge.svg?branch=master)
 
+
+# THIS REPOSITORY HAS MOVED AND IS NOW OFFICIALLY ARCHIVED
+You can find it on it's new home here [https://github.com/openshift/route-monitor-operator](https://github.com/openshift/route-monitor-operator)
+
+
 ## What does this do?
 Automatically enables blackbox probes for routes on OpenShift clusters to be consumed by the Cluster Monitoring Operator
 or any vanilla Prometheus Operator.
